@@ -43,7 +43,7 @@ namespace GNC_Rodrigues.BD.Migrations
                     b.HasIndex(new[] { "DNI" }, "Cliente_UQ_DNI")
                         .IsUnique();
 
-                    b.ToTable("clientes");
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("GNC_Rodrigues.BD.DATA.Entity.Orden", b =>
@@ -101,7 +101,7 @@ namespace GNC_Rodrigues.BD.Migrations
                     b.HasIndex(new[] { "Id" }, "Orden_UQ_Id")
                         .IsUnique();
 
-                    b.ToTable("Orden");
+                    b.ToTable("Ordenes");
                 });
 
             modelBuilder.Entity("GNC_Rodrigues.BD.DATA.Entity.Vehiculo", b =>
@@ -125,7 +125,7 @@ namespace GNC_Rodrigues.BD.Migrations
                     b.HasIndex(new[] { "Dominio" }, "Vehiculo_UQ_Dominio")
                         .IsUnique();
 
-                    b.ToTable("Vehiculo");
+                    b.ToTable("Vehiculos");
                 });
 
             modelBuilder.Entity("GNC_Rodrigues.BD.DATA.Entity.Orden", b =>

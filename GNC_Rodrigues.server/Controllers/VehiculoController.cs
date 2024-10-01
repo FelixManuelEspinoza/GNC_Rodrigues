@@ -30,23 +30,44 @@ namespace Proyecto2024.Server.Controllers
 
 
             [HttpPost]
-
-            public async Task<ActionResult<int>> post(Vehiculo entidad)
+            public async Task<ActionResult<string>> Post([FromBody] Vehiculo vehiculo)
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 try
                 {
-                    context.Vehiculos.Add(entidad);
-                    await context.SaveChangesAsync();
-                    return Ok(entidad.Dominio);
+                    // Verificar si ClienteDNI no es null y existe en la base de datos
+                    if (!string.IsNullOrEmpty(vehiculo.ClienteDNI))
+                    {
+                        var clienteExistente = await context.Clientes.FindAsync(vehiculo.ClienteDNI);
+                        if (clienteExistente == null)
+                        {
+                            return BadRequest("El ClienteDNI proporcionado no existe.");
+                        }
+                    }
 
+                    // Verificar unicidad de Dominio
+                    var existeDominio = await context.Vehiculos.AnyAsync(v => v.Dominio == vehiculo.Dominio);
+                    if (existeDominio)
+                    {
+                        return BadRequest("El Dominio proporcionado ya existe.");
+                    }
+
+                    context.Vehiculos.Add(vehiculo);
+                    await context.SaveChangesAsync();
+                    return Ok(vehiculo.Dominio);
                 }
                 catch (Exception err)
                 {
-                    return BadRequest(err.Message);
+                    var errorMessage = err.InnerException != null ? err.InnerException.Message : err.Message;
+                    return BadRequest($"Error al guardar los cambios: {errorMessage}");
                 }
-
-
             }
+
+
 
 
             //[HttpPut("{dominio:int}")] //api/Vehiculos/2

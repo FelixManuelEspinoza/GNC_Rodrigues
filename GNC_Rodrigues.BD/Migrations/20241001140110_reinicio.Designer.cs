@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GNC_Rodrigues.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240922214630_Contexmod")]
-    partial class Contexmod
+    [Migration("20241001140110_reinicio")]
+    partial class reinicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,7 @@ namespace GNC_Rodrigues.BD.Migrations
                     b.HasIndex(new[] { "DNI" }, "Cliente_UQ_DNI")
                         .IsUnique();
 
-                    b.ToTable("clientes");
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("GNC_Rodrigues.BD.DATA.Entity.Orden", b =>
@@ -104,7 +104,7 @@ namespace GNC_Rodrigues.BD.Migrations
                     b.HasIndex(new[] { "Id" }, "Orden_UQ_Id")
                         .IsUnique();
 
-                    b.ToTable("Orden");
+                    b.ToTable("Ordenes");
                 });
 
             modelBuilder.Entity("GNC_Rodrigues.BD.DATA.Entity.Vehiculo", b =>
@@ -128,7 +128,7 @@ namespace GNC_Rodrigues.BD.Migrations
                     b.HasIndex(new[] { "Dominio" }, "Vehiculo_UQ_Dominio")
                         .IsUnique();
 
-                    b.ToTable("Vehiculo");
+                    b.ToTable("Vehiculos");
                 });
 
             modelBuilder.Entity("GNC_Rodrigues.BD.DATA.Entity.Orden", b =>

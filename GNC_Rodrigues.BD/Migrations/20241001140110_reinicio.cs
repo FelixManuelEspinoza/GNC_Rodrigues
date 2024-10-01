@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GNC_Rodrigues.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class Contexmod : Migration
+    public partial class reinicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "clientes",
+                name: "Clientes",
                 columns: table => new
                 {
                     DNI = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
@@ -21,11 +21,11 @@ namespace GNC_Rodrigues.BD.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_clientes", x => x.DNI);
+                    table.PrimaryKey("PK_Clientes", x => x.DNI);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vehiculo",
+                name: "Vehiculos",
                 columns: table => new
                 {
                     Dominio = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
@@ -34,16 +34,16 @@ namespace GNC_Rodrigues.BD.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vehiculo", x => x.Dominio);
+                    table.PrimaryKey("PK_Vehiculos", x => x.Dominio);
                     table.ForeignKey(
-                        name: "FK_Vehiculo_clientes_ClienteDNI",
+                        name: "FK_Vehiculos_Clientes_ClienteDNI",
                         column: x => x.ClienteDNI,
-                        principalTable: "clientes",
+                        principalTable: "Clientes",
                         principalColumn: "DNI");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orden",
+                name: "Ordenes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -63,49 +63,49 @@ namespace GNC_Rodrigues.BD.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orden", x => x.Id);
+                    table.PrimaryKey("PK_Ordenes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orden_Vehiculo_VehiculoDominio",
-                        column: x => x.VehiculoDominio,
-                        principalTable: "Vehiculo",
-                        principalColumn: "Dominio");
-                    table.ForeignKey(
-                        name: "FK_Orden_clientes_ClienteDNI",
+                        name: "FK_Ordenes_Clientes_ClienteDNI",
                         column: x => x.ClienteDNI,
-                        principalTable: "clientes",
+                        principalTable: "Clientes",
                         principalColumn: "DNI");
+                    table.ForeignKey(
+                        name: "FK_Ordenes_Vehiculos_VehiculoDominio",
+                        column: x => x.VehiculoDominio,
+                        principalTable: "Vehiculos",
+                        principalColumn: "Dominio");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "Cliente_UQ_DNI",
-                table: "clientes",
+                table: "Clientes",
                 column: "DNI",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orden_ClienteDNI",
-                table: "Orden",
+                name: "IX_Ordenes_ClienteDNI",
+                table: "Ordenes",
                 column: "ClienteDNI");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orden_VehiculoDominio",
-                table: "Orden",
+                name: "IX_Ordenes_VehiculoDominio",
+                table: "Ordenes",
                 column: "VehiculoDominio");
 
             migrationBuilder.CreateIndex(
                 name: "Orden_UQ_Id",
-                table: "Orden",
+                table: "Ordenes",
                 column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehiculo_ClienteDNI",
-                table: "Vehiculo",
+                name: "IX_Vehiculos_ClienteDNI",
+                table: "Vehiculos",
                 column: "ClienteDNI");
 
             migrationBuilder.CreateIndex(
                 name: "Vehiculo_UQ_Dominio",
-                table: "Vehiculo",
+                table: "Vehiculos",
                 column: "Dominio",
                 unique: true);
         }
@@ -114,13 +114,13 @@ namespace GNC_Rodrigues.BD.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Orden");
+                name: "Ordenes");
 
             migrationBuilder.DropTable(
-                name: "Vehiculo");
+                name: "Vehiculos");
 
             migrationBuilder.DropTable(
-                name: "clientes");
+                name: "Clientes");
         }
     }
 }
