@@ -1,0 +1,32 @@
+﻿@page "/orden-detalle/{ordenId:int}"
+@using GNC_Rodrigues.BD.DATA.Entity
+@inject HttpClient Http
+
+<h3>Detalles de la Orden</h3>
+
+@if (orden != null)
+{
+    <div>
+        <p><strong>ID:</strong> @orden.Id</p>
+        <p><strong>Fecha:</strong> @orden.FechaOrden</p>
+        <p><strong>Vehículo:</strong> @orden.Vehiculo.Marca - @orden.Vehiculo.Dominio</p>
+        <p><strong>Cliente:</strong> @orden.Cliente.Nombre - @orden.Cliente.DNI</p>
+        <p><strong>Fallas:</strong> @orden.Fallas</p>
+        <p><strong>Presupuesto:</strong> @orden.Presupuesto</p>
+        <p><strong>Reparación:</strong> @orden.Reparacion</p>
+        <p><strong>Total:</strong> @orden.Total</p>
+        <p><strong>Funciona a Nafta:</strong> @orden.FuncionaNafta ? "Sí" : "No"</p>
+        <p><strong>Corta Corriente:</strong> @orden.CortaCorriente ? "Sí" : "No"</p>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int ordenId { get; set; }
+    private Orden orden;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orden = await Http.GetFromJsonAsync<Orden>($"api/ordenes/{ordenId}");
+    }
+}

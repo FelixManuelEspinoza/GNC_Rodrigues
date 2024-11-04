@@ -1,0 +1,47 @@
+﻿@page "/buscar-ordenes"
+@using GNC_Rodrigues.BD.DATA.Entity
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Buscar Órdenes</h3>
+
+<div class="form-group">
+    <label for="filtro">Buscar por:</label>
+    <select id="filtro" @bind="filtroSeleccionado" class="form-control">
+        <option value="vehiculo">Nombre del Vehículo</option>
+        <option value="dominio">Dominio</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <input type="text" @bind="query" placeholder="Escribe aquí..." class="form-control" />
+    <button @onclick="BuscarOrdenes" class="btn btn-primary">Buscar</button>
+</div>
+
+@if (resultados != null)
+{
+    <ul>
+        @foreach (var orden in resultados)
+        {
+            <li><a @onclick="() => SeleccionarOrden(orden.Id)">@orden.VehiculoDominio - @orden.Cliente.Nombre</a></li>
+        }
+    </ul>
+}
+
+@code {
+    private string query;
+    private string filtroSeleccionado = "vehiculo";
+    private List<Orden> resultados;
+
+    private async Task BuscarOrdenes()
+    {
+        var ruta = filtroSeleccionado == "vehiculo" ? $"api/ordenes/buscar?query=vehiculo-{query}" : $"api/ordenes/buscar?query=dominio-{query}";
+        resultados = await Http.GetFromJsonAsync<List<Orden>>(ruta);
+    }
+
+    private void SeleccionarOrden(int ordenId)
+    {
+        NavigationManager.NavigateTo($"/orden-detalle/{ordenId}");
+    }
+}
+}
